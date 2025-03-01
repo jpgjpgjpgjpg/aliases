@@ -14,7 +14,7 @@ upgrade () {
   echo "python3 -c 'import pty;pty.spawn(\"/bin/bash\")';python -c 'import pty;pty.spawn(\"/bin/bash\")'"| xclip -sel clip
 }
 
-set_target(){
+set_target() {
   echo "$1" > ~/.config/bin/target
 }
 
