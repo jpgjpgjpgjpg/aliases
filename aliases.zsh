@@ -15,7 +15,7 @@ upgrade () {
 }
 
 set_target() {
-  echo "$1" > ~/.config/bin/target
+  echo "$1" > ~/.config/bin/target && export IP=$1
 }
 
 alias tun0="ifconfig tun0 | grep 'inet ' | cut -d' ' -f10 | tr -d '\n' | xclip -sel clip"
