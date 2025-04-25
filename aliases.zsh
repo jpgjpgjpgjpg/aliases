@@ -20,8 +20,8 @@ set_target(){
 
 transfer(){
   ip_tun0=$(ip a show tun0 | awk '/inet / { split($2, a, "/"); print a[1] }')
-  sudo python3 -m http.server 80 --directory ~/tools
   echo "wget http://$ip_tun0/" | tr -d '\n' | xclip -sel clip
+  sudo python3 -m http.server 80 --directory ~/tools
 }
 
 ligolo(){
