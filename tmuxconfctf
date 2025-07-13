@@ -1,0 +1,27 @@
+#!/bin/bash
+
+if [ -z "$1" ]; then
+    echo "Uso: $0 <IP> <DOMAIN>"
+    exit 1
+fi
+
+if [ -n "$2" ]; then
+	tmux set-environment -g DOMAIN "$2"
+	if ! grep -q "$1 $2" /etc/hosts; then
+        echo "$1 $2" | sudo tee -a /etc/hosts
+    fi
+fi
+
+tmux set-environment -g IP "$1"
+tmux new-session -d -s HTB -n Scan
+sleep 0.1
+tmux send-keys 'rustscan -a $IP --ulimit 5000 -r 0-65535 -- -sC -sV -oN default.nmap'
+
+tmux new-window -t HTB:1 -n Recon
+sleep 0.1
+tmux send-keys -t HTB:1 'dirsearch -u $IP -r'
+
+tmux new-session -d -s VPN
+tmux new-window -t VPN:1 -n Add
+
+tmux a
